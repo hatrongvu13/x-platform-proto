@@ -24,7 +24,7 @@ jobs:
       # Build dự án Maven và đẩy artifact lên GitHub Packages
       - name: Build with Maven and Publish to GitHub Packages
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Sử dụng PAT từ secrets
+          GITHUB_TOKEN: ${{ secrets.CUSTOM_TOKEN }}  # Sử dụng PAT từ secrets
         run: |
           mvn -B package --file pom.xml
           mvn -B deploy --file pom.xml -DskipTests
