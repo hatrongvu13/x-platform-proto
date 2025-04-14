@@ -23,11 +23,21 @@ message PermissionGrpc {
   string value = 3;
 }
 
+message UserTokenGrpc {
+  string token = 1;
+}
+
 message UserGrpcInput {
   repeated string username = 1;
   repeated string email = 2;
   int64 current_page = 3;
   int64 page_size = 4;
+}
+
+message UserGrpcRegister {
+  string username = 1;
+  string email = 2;
+  string password = 3;
 }
 
 message UserGrpcResponse {
@@ -45,11 +55,18 @@ message PermissionGrpcResponse {
   repeated PermissionGrpc data = 1;
 }
 
-service UserService {
+service UserGrpcService {
   rpc findUser(UserGrpcInput) returns (UserGrpcResponse);
   rpc findUsers(stream UserGrpcInput) returns (UserGrpcResponse);
   rpc updateUser(UserGrpc) returns (UserGrpcResponse);
   rpc deleteUser(UserGrpcInput) returns (UserGrpcResponse);
+  rpc registerUser(UserGrpcRegister) returns (UserGrpcResponse);
+}
+
+service RoleGrpcService {
   rpc findRole(RoleGrpc) returns (RoleGrpcResponse);
+}
+
+service PermissionGrpcService {
   rpc findPermission(PermissionGrpc) returns (PermissionGrpcResponse);
 }
