@@ -4,12 +4,23 @@ option java_multiple_files = true;
 option java_package = "com.xxx.user.grpc";
 
 message UserGrpc {
-  string user_id = 1;
+  int64 user_id = 1;
   string username = 2;
   string email = 3;
   string phone = 4;
-  repeated string roles = 5;
-  string full_name = 6;
+  string full_name = 5;
+}
+
+message RoleGrpc {
+  int64 role_id = 1;
+  string code = 2;
+  string value = 3;
+}
+
+message PermissionGrpc {
+  int64 permission_id = 1;
+  string code = 2;
+  string value = 3;
 }
 
 message UserGrpcInput {
@@ -26,9 +37,19 @@ message UserGrpcResponse {
   int64 total_record = 4;
 }
 
+message RoleGrpcResponse {
+  repeated RoleGrpc data = 1;
+}
+
+message PermissionGrpcResponse {
+  repeated PermissionGrpc data = 1;
+}
+
 service UserService {
   rpc findUser(UserGrpcInput) returns (UserGrpcResponse);
   rpc findUsers(stream UserGrpcInput) returns (UserGrpcResponse);
   rpc updateUser(UserGrpc) returns (UserGrpcResponse);
   rpc deleteUser(UserGrpcInput) returns (UserGrpcResponse);
+  rpc findRole(RoleGrpc) returns (RoleGrpcResponse);
+  rpc findPermission(PermissionGrpc) returns (PermissionGrpcResponse);
 }
