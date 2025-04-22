@@ -65,8 +65,16 @@ service UserGrpcService {
 
 service RoleGrpcService {
   rpc findRole(RoleGrpc) returns (RoleGrpcResponse);
+  rpc findRoleStream(stream RoleGrpc) returns (RoleGrpcResponse);
+  rpc createRole(RoleGrpc) returns (RoleGrpcResponse);
+  rpc updateRole(RoleGrpc) returns (RoleGrpcResponse);
+  rpc deleteRole(RoleGrpc) returns (RoleGrpcResponse);
 }
 
 service PermissionGrpcService {
   rpc findPermission(PermissionGrpc) returns (PermissionGrpcResponse);
+  rpc findPermissionStream(stream PermissionGrpc) returns (PermissionGrpcResponse);
+  rpc createPermission(PermissionGrpc) returns (PermissionGrpcResponse);
+  rpc updatePermission(PermissionGrpc) returns (PermissionGrpcResponse);
+  rpc deletePermission(PermissionGrpc) returns (PermissionGrpcResponse);
 }
