@@ -27,6 +27,11 @@ message UserTokenGrpc {
   string token = 1;
 }
 
+message UserLoginGrpcInput {
+  string username = 1;
+  string password = 2;
+}
+
 message UserGrpcInput {
   repeated string username = 1;
   repeated string email = 2;
@@ -60,7 +65,8 @@ service UserGrpcService {
   rpc findUsers(stream UserGrpcInput) returns (UserGrpcResponse);
   rpc updateUser(UserGrpc) returns (UserGrpcResponse);
   rpc deleteUser(UserGrpcInput) returns (UserGrpcResponse);
-  rpc registerUser(UserGrpcRegister) returns (UserGrpcResponse);
+  rpc registerUser(UserGrpcRegister) returns (UserTokenGrpc);
+  rpc loginUser(UserLoginGrpcInput) returns (UserTokenGrpc);
 }
 
 service RoleGrpcService {
