@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "grpc-common.proto";
 
 option java_multiple_files = true;
 option java_package = "com.xxx.user.grpc";
@@ -9,12 +10,14 @@ message UserGrpc {
   string email = 3;
   string phone = 4;
   string full_name = 5;
+  repeated RoleGrpc roles = 6;
 }
 
 message RoleGrpc {
   int64 role_id = 1;
   string code = 2;
   string value = 3;
+  repeated PermissionGrpc permissions = 4;
 }
 
 message PermissionGrpc {
@@ -35,8 +38,7 @@ message UserLoginGrpcInput {
 message UserGrpcInput {
   repeated string username = 1;
   repeated string email = 2;
-  int64 current_page = 3;
-  int64 page_size = 4;
+  common.GrpcPagination page_info = 3;
 }
 
 message UserGrpcRegister {
@@ -48,16 +50,17 @@ message UserGrpcRegister {
 message UserGrpcResponse {
   string message = 1;
   repeated UserGrpc data = 2;
-  int64 current_page = 3;
-  int64 total_record = 4;
+  common.GrpcPagination page_info = 3;
 }
 
 message RoleGrpcResponse {
   repeated RoleGrpc data = 1;
+  common.GrpcPagination page_info = 2;
 }
 
 message PermissionGrpcResponse {
   repeated PermissionGrpc data = 1;
+  common.GrpcPagination page_info = 2;
 }
 
 service UserGrpcService {

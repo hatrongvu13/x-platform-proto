@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.xxx.notification";
+
+message NotificationGrpc {
+  int64 notification_id = 1;
+  string title = 2;
+  string content = 3;
+}
+
+message NotificationEmailGrpc {
+  int64 email_id = 1;
+  string email_title = 2;
+  string email_to = 3;
+  string email_cc = 4;
+  string email_bcc = 5;
+  string content = 6;
+  string attack = 7;
+}
