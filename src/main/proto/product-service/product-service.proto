@@ -1,5 +1,4 @@
 syntax = "proto3";
-import "grpc-common.proto";
 option java_multiple_files = true;
 option java_package = "com.xxx.product.grpc";
 
@@ -13,13 +12,11 @@ message ProductGrpc {
 message ProductGrpcInput {
   repeated string product_name = 1;
   repeated string product_code = 2;
-  common.GrpcPagination page_info = 3;
 }
 
 message ProductGrpcResponse {
   string message = 1;
   repeated ProductGrpc data = 2;
-  common.GrpcPagination page_info = 3;
 }
 
 service ProductService {
