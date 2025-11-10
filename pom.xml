@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.xxx</groupId>
-  <artifactId>x-platform-proto</artifactId>
-  <version>0.0.6</version>
+  <artifactId>${project.artifactId}</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>x-platform-proto</name>
@@ -22,6 +22,7 @@
     <maven.compiler.target>17</maven.compiler.target>
     <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
     <java.version>17</java.version>
+    <project.artifactId>x-platform-proto</project.artifactId>
     <grpc.java.version>1.68.2</grpc.java.version>
     <tomcat.annotations.version>6.0.53</tomcat.annotations.version>
     <protoc.version>3.25.1</protoc.version>
@@ -42,6 +43,7 @@
       <properties>
         <final.name>proto</final.name>
         <proto.files>*/*.proto</proto.files>
+        <project.artifactId>x-platform-proto</project.artifactId>
       </properties>
     </profile>
     <profile>
@@ -49,13 +51,23 @@
       <properties>
         <final.name>user-manager</final.name>
         <proto.files>user-manager/*.proto</proto.files>
+        <project.artifactId>x-user-manager-proto</project.artifactId>
       </properties>
     </profile>
     <profile>
-      <id>product-service</id>
+      <id>product</id>
       <properties>
         <final.name>product-service</final.name>
         <proto.files>product-service/*.proto</proto.files>
+        <project.artifactId>x-product-proto</project.artifactId>
+      </properties>
+    </profile>
+    <profile>
+      <id>notification</id>
+      <properties>
+        <final.name>notification-service</final.name>
+        <proto.files>product-service/*.proto</proto.files>
+        <project.artifactId>x-platform-proto</project.artifactId>
       </properties>
     </profile>
   </profiles>

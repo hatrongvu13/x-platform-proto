@@ -27,4 +27,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CUSTOM_TOKEN }}  # Sử dụng PAT từ secrets
         run: |
           mvn -B package --file pom.xml
-          mvn -B deploy --file pom.xml -DskipTests
+          mvn -B deploy --file pom.xml -DskipTests -Pdefault,user-manager,product,notification
