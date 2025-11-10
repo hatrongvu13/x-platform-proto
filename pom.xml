@@ -43,7 +43,7 @@
       <properties>
         <final.name>proto</final.name>
         <proto.includes>
-          <include>*/*.proto</include>
+          */*.proto
         </proto.includes>
         <project.artifactId>x-platform-proto</project.artifactId>
       </properties>
@@ -53,7 +53,7 @@
       <properties>
         <final.name>user-manager</final.name>
         <proto.includes>
-          <include>user-manager/*.proto</include>
+          user-manager/*.proto
         </proto.includes>
         <project.artifactId>x-user-manager-proto</project.artifactId>
       </properties>
@@ -63,7 +63,7 @@
       <properties>
         <final.name>product-service</final.name>
         <proto.includes>
-          <include>product-service/*.proto</include>
+          product-service/*.proto
         </proto.includes>
         <project.artifactId>x-product-proto</project.artifactId>
       </properties>
@@ -73,7 +73,7 @@
       <properties>
         <final.name>notification-service</final.name>
         <proto.includes>
-          <include>notification/*.proto</include>
+          notification/*.proto
         </proto.includes>
         <project.artifactId>x-platform-proto</project.artifactId>
       </properties>
@@ -133,7 +133,7 @@
             ${basedir}/src/main/proto/
           </protoSourceRoot>
           <includes>
-            ${proto.includes}
+            <include>${proto.includes}</include>
           </includes>
           <excludes>
             <exclude>test/*.proto</exclude>
