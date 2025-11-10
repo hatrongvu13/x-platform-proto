@@ -50,7 +50,7 @@
       <id>user-manager</id>
       <properties>
         <final.name>user-manager</final.name>
-        <proto.files>user-manager/*.proto</proto.files>
+        <proto.files>user-manager/*.proto,common/*.proto</proto.files>
         <project.artifactId>x-user-manager-proto</project.artifactId>
       </properties>
     </profile>
@@ -58,7 +58,7 @@
       <id>product</id>
       <properties>
         <final.name>product-service</final.name>
-        <proto.files>product-service/*.proto</proto.files>
+        <proto.files>product-service/*.proto,common/*.proto</proto.files>
         <project.artifactId>x-product-proto</project.artifactId>
       </properties>
     </profile>
@@ -66,7 +66,7 @@
       <id>notification</id>
       <properties>
         <final.name>notification-service</final.name>
-        <proto.files>product-service/*.proto</proto.files>
+        <proto.files>notification/*.proto,common/*.proto</proto.files>
         <project.artifactId>x-platform-proto</project.artifactId>
       </properties>
     </profile>
