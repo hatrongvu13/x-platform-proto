@@ -43,6 +43,7 @@ message UserGrpcRegister {
   string username = 1;
   string email = 2;
   string password = 3;
+  string fullName = 4;
 }
 
 message UserGrpcResponse {
