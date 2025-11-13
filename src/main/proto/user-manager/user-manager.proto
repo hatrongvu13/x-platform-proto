@@ -1,85 +1,122 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "com.xxx.user.grpc";
+option java_package = "com.htv.proto.user";
 
 message UserGrpc {
-  int64 user_id = 1;
+  int64 id = 1;
   string username = 2;
   string email = 3;
-  string phone = 4;
   string full_name = 5;
-  repeated RoleGrpc roles = 6;
 }
 
-message RoleGrpc {
-  int64 role_id = 1;
-  string code = 2;
-  string value = 3;
-  repeated PermissionGrpc permissions = 4;
-}
-
-message PermissionGrpc {
-  int64 permission_id = 1;
-  string code = 2;
-  string value = 3;
-}
-
-message UserTokenGrpc {
-  string token = 1;
-}
-
-message UserLoginGrpcInput {
-  string username = 1;
-  string password = 2;
-}
-
-message UserGrpcInput {
+message UserInfoGrpc{
   repeated string username = 1;
   repeated string email = 2;
 }
 
-message UserGrpcRegister {
+message UserRegisterGrpc {
   string username = 1;
   string email = 2;
   string password = 3;
   string fullName = 4;
 }
 
-message UserGrpcResponse {
+message UserLoginGrpc {
+  oneof data {
+    string username = 1;
+    string email = 2;
+  }
+  string password = 3;
+}
+
+message UserResetPasswordGrpc {
+  oneof data {
+    string username = 1;
+    string email = 2;
+  }
+  string password = 3;
+  string code = 4;
+}
+
+message JwtGrpc {
+  string token = 1;
+  string refresh_token = 2;
+  string message = 3;
+  string error = 4;
+}
+
+message UserInfoResponseGrpc {
+  string status = 1;
+  string message = 2;
+  string error = 3;
+  repeated UserGrpc data = 4;
+}
+
+message RoleGrpc {
+  int64 id = 1;
+  string code = 2;
+  string value = 3;
+}
+
+message InitRoleGrpc {
+  repeated RoleGrpc role = 1;
+}
+
+message RoleByUserGrpc {
+  repeated int64 user_ids = 1;
+}
+
+message RoleResponseGrpc {
   string message = 1;
-  repeated UserGrpc data = 2;
+  string error = 2;
+  repeated RoleGrpc data = 3;
 }
 
-message RoleGrpcResponse {
-  repeated RoleGrpc data = 1;
+message PermissionGrpc {
+  int64 id = 1;
+  string code = 2;
+  string value = 3;
 }
 
-message PermissionGrpcResponse {
-  repeated PermissionGrpc data = 1;
+message PermissionInitGrpc {
+  repeated PermissionGrpc permission = 1;
+}
+
+message PermissionByRoleGrpc {
+  repeated int64 role_ids = 1;
+}
+
+message PermissionResponseGrpc {
+  string message = 1;
+  string error = 2;
+  repeated PermissionGrpc data = 3;
 }
 
 service UserGrpcService {
-  rpc findUser(UserGrpcInput) returns (UserGrpcResponse);
-  rpc findUsers(stream UserGrpcInput) returns (UserGrpcResponse);
-  rpc updateUser(UserGrpc) returns (UserGrpcResponse);
-  rpc deleteUser(UserGrpcInput) returns (UserGrpcResponse);
-  rpc registerUser(UserGrpcRegister) returns (UserTokenGrpc);
-  rpc loginUser(UserLoginGrpcInput) returns (UserTokenGrpc);
+  rpc getUserInfo(stream UserGrpc) returns (UserInfoResponseGrpc);
+  rpc getUsersInfo(stream UserInfoGrpc) returns (UserInfoResponseGrpc);
+  rpc registerUser(UserRegisterGrpc) returns (JwtGrpc);
+  rpc loginUser(UserLoginGrpc) returns (JwtGrpc);
+  rpc resetPassword(UserResetPasswordGrpc) returns (JwtGrpc);
+  rpc updateUser(UserGrpc) returns (UserInfoResponseGrpc);
+  rpc deleteUser(UserGrpc) returns (UserInfoResponseGrpc);
 }
 
 service RoleGrpcService {
-  rpc findRole(RoleGrpc) returns (RoleGrpcResponse);
-  rpc findRoleStream(stream RoleGrpc) returns (RoleGrpcResponse);
-  rpc createRole(RoleGrpc) returns (RoleGrpcResponse);
-  rpc updateRole(RoleGrpc) returns (RoleGrpcResponse);
-  rpc deleteRole(RoleGrpc) returns (RoleGrpcResponse);
+  rpc initRole(RoleGrpc) returns (RoleResponseGrpc);
+  rpc initRoles(InitRoleGrpc) returns (RoleResponseGrpc);
+  rpc updateRole(RoleGrpc) returns (RoleResponseGrpc);
+  rpc deleteRole(RoleGrpc) returns (RoleResponseGrpc);
+
+  rpc roleByUser(RoleByUserGrpc) returns(RoleResponseGrpc);
 }
 
 service PermissionGrpcService {
-  rpc findPermission(PermissionGrpc) returns (PermissionGrpcResponse);
-  rpc findPermissionStream(stream PermissionGrpc) returns (PermissionGrpcResponse);
-  rpc createPermission(PermissionGrpc) returns (PermissionGrpcResponse);
-  rpc updatePermission(PermissionGrpc) returns (PermissionGrpcResponse);
-  rpc deletePermission(PermissionGrpc) returns (PermissionGrpcResponse);
+  rpc initPermission(PermissionGrpc) returns (PermissionResponseGrpc);
+  rpc initPermissions(PermissionInitGrpc) returns (PermissionResponseGrpc);
+  rpc updatePermission(PermissionGrpc) returns (PermissionResponseGrpc);
+  rpc deletePermission(PermissionGrpc) returns (PermissionResponseGrpc);
+
+  rpc permissionByRole(PermissionByRoleGrpc) returns (PermissionResponseGrpc);
 }

@@ -4,7 +4,7 @@
 
   <groupId>com.xxx</groupId>
   <artifactId>${project.artifactId}</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.1</version>
   <packaging>jar</packaging>
 
   <name>x-platform-proto</name>
@@ -56,26 +56,6 @@
           user-manager/*.proto
         </proto.includes>
         <project.artifactId>x-user-manager-proto</project.artifactId>
-      </properties>
-    </profile>
-    <profile>
-      <id>product</id>
-      <properties>
-        <final.name>product-service</final.name>
-        <proto.includes>
-          product-service/*.proto
-        </proto.includes>
-        <project.artifactId>x-product-proto</project.artifactId>
-      </properties>
-    </profile>
-    <profile>
-      <id>notification</id>
-      <properties>
-        <final.name>notification-service</final.name>
-        <proto.includes>
-          notification/*.proto
-        </proto.includes>
-        <project.artifactId>x-platform-proto</project.artifactId>
       </properties>
     </profile>
   </profiles>
