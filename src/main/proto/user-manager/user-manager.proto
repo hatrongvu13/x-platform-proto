@@ -64,7 +64,7 @@ message InitRoleGrpc {
 }
 
 message RoleByUserGrpc {
-  repeated int64 user_ids = 1;
+  repeated string username = 1;
 }
 
 message RoleResponseGrpc {
