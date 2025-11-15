@@ -85,7 +85,7 @@ message RoleResponseGrpc {
 message RolesByUserResponseGrpc {
   string message = 1;
   string error = 2;
-  repeated RoleByUsersGrpc data = 3;
+  repeated RolesByUserGrpc data = 3;
 }
 
 message PermissionGrpc {
