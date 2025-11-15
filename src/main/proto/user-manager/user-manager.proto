@@ -64,13 +64,28 @@ message InitRoleGrpc {
 }
 
 message RoleByUserGrpc {
-  repeated string username = 1;
+  string username = 1;
+}
+
+message RoleByUsersGrpc {
+  repeated string usernames = 1;
+}
+
+message RolesByUserGrpc {
+  string username = 1;
+  repeated RoleGrpc role = 2;
 }
 
 message RoleResponseGrpc {
   string message = 1;
   string error = 2;
   repeated RoleGrpc data = 3;
+}
+
+message RolesByUserResponseGrpc {
+  string message = 1;
+  string error = 2;
+  repeated RoleByUsersGrpc data = 3;
 }
 
 message PermissionGrpc {
@@ -110,6 +125,7 @@ service RoleGrpcService {
   rpc deleteRole(RoleGrpc) returns (RoleResponseGrpc);
 
   rpc roleByUser(RoleByUserGrpc) returns(RoleResponseGrpc);
+  rpc rolesByUser(stream RoleByUsersGrpc) returns(RolesByUserResponseGrpc);
 }
 
 service PermissionGrpcService {
