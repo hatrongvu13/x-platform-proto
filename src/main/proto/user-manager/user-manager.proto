@@ -40,7 +40,7 @@ message UserResetPasswordGrpc {
 }
 
 message JwtGrpc {
-  string token = 1;
+  string access_token = 1;
   string refresh_token = 2;
   string message = 3;
   string error = 4;

@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package cv;
+
+option java_multiple_files = true;
+option java_package = "com.htv.proto.cv";
+option java_outer_classname = "CVProto";  // fallback nếu không multiple files
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+// ===================== ENUMS =====================
+enum LanguageLevel {
+  LANGUAGE_LEVEL_UNSPECIFIED = 0;
+  BASIC = 1;
+  INTERMEDIATE = 2;
+  FLUENT = 3;
+  NATIVE = 4;
+}
+
+// ===================== REPEATED MESSAGES =====================
+message Experience {
+  string company = 1;
+  string position = 2;
+  string duration = 3;
+  repeated string description = 4;
+}
+
+message Education {
+  string school = 1;
+  string major = 2;
+  string duration = 3;
+  string gpa = 4;
+}
+
+message SpokenLanguage {
+  string name = 1;
+  oneof level_oneof {
+    string level_text = 2;           // "IELTS 7.5", "Mẹ đẻ", ...
+    LanguageLevel level_enum = 3;    // nếu muốn strict
+  }
+}
+
+message Project {
+  string id = 1;
+  string title = 2;
+  string short_desc = 3;
+  string full_desc = 4;
+  repeated string tech = 5;
+  string link = 6;
+  string year = 7;
+}
+
+// ===================== TRANSLATION =====================
+message Translation {
+  string lang_code = 1; // vi, en, ja, zh-CN, en-US...
+
+  string name = 10;
+  string title = 11;
+  string summary = 12;
+  string email = 13;
+  string phone = 14;
+  string location = 15;
+  string website = 16;
+
+  repeated Experience experience = 20;
+  repeated Education education = 21;
+  repeated string skills = 22;
+  repeated SpokenLanguage languages = 23;
+  repeated Project projects = 24;
+}
+
+// ===================== MAIN CV ENTITY =====================
+message CV {
+  int64 id = 1;
+  string default_lang = 2; // ví dụ: "vi"
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+  bool is_active = 5;
+
+  repeated Translation translations = 10;
+}
+
+// ===================== REQUEST / RESPONSE =====================
+message GetCVRequest {
+  int64 cv_id = 1;
+  string requested_lang = 2; // nếu rỗng thì dùng default_lang
+}
+
+message GetCVResponse {
+  CV cv = 1;
+  Translation resolved_translation = 2; // đã fallback đúng ngôn ngữ
+}
+
+message CreateCVRequest {
+  CV cv = 1;
+}
+
+message UpdateCVRequest {
+  CV cv = 1;
+}
+
+message DeleteCVRequest {
+  int64 cv_id = 1;
+}
+
+message ListCVsRequest {
+  int32 page = 1;
+  int32 size = 2;
+  string lang = 3; // để trả về resolved translation luôn
+}
+
+message ListCVsResponse {
+  repeated CV items = 1;
+  int32 total = 2;
+}
+
+// ===================== SERVICE DEFINITION =====================
+service CVService {
+  rpc GetCV(GetCVRequest) returns (GetCVResponse);
+  rpc CreateCV(CreateCVRequest) returns (CV);
+  rpc UpdateCV(UpdateCVRequest) returns (CV);
+  rpc DeleteCV(DeleteCVRequest) returns (google.protobuf.Empty);
+  rpc ListCVs(ListCVsRequest) returns (ListCVsResponse);
+}
