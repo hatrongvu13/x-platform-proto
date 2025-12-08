@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.xxx</groupId>
-    <artifactId>proto</artifactId>
-    <version>0.0.2</version>
+    <artifactId>x-platform-proto</artifactId>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <name>x-platform-proto</name>
