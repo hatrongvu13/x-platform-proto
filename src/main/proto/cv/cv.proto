@@ -1,10 +1,7 @@
 syntax = "proto3";
 
-package cv;
-
 option java_multiple_files = true;
 option java_package = "com.htv.proto.cv";
-option java_outer_classname = "CVProto";  // fallback nếu không multiple files
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
