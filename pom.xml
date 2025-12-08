@@ -63,6 +63,17 @@
             <artifactId>grpc-stub</artifactId>
             <version>${grpc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf-lite</artifactId>
+            <version>${grpc.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- FIX lỗi javax.annotation.Generated -->
         <dependency>
