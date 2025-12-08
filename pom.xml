@@ -1,133 +1,162 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.xxx</groupId>
-  <artifactId>${project.artifactId}</artifactId>
-  <version>0.0.2</version>
-  <packaging>jar</packaging>
+    <groupId>com.xxx</groupId>
+    <artifactId>${project.artifactId}</artifactId>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
 
-  <name>x-platform-proto</name>
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <name>GitHub OWNER Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/hatrongvu13/x-platform-proto</url>
-    </repository>
-  </distributionManagement>
+    <name>x-platform-proto</name>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/hatrongvu13/x-platform-proto</url>
+        </repository>
+    </distributionManagement>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
-    <java.version>17</java.version>
-    <project.artifactId>x-platform-proto</project.artifactId>
-    <grpc.java.version>1.68.2</grpc.java.version>
-    <tomcat.annotations.version>6.0.53</tomcat.annotations.version>
-    <protoc.version>3.25.1</protoc.version>
-    <protobuf.maven.plugin.version>0.6.1</protobuf.maven.plugin.version>
-    <os.maven.plugin.version>1.7.1</os.maven.plugin.version>
-    <grpc.spring.version>3.1.0.RELEASE</grpc.spring.version>
-    <protobuf.java.util.version>3.25.4</protobuf.java.util.version>
-    <io.jsonwebtoken>0.11.5</io.jsonwebtoken>
-    <apache.poi.version>5.1.0</apache.poi.version>
-  </properties>
-
-  <profiles>
-    <profile>
-      <id>default</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <final.name>proto</final.name>
-        <proto.includes>
-          */*.proto
-        </proto.includes>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>17</java.version>
         <project.artifactId>x-platform-proto</project.artifactId>
-      </properties>
-    </profile>
-    <profile>
-      <id>user-manager</id>
-      <properties>
-        <final.name>user-manager</final.name>
-        <proto.includes>
-          user-manager/*.proto
-        </proto.includes>
-        <project.artifactId>x-user-manager-proto</project.artifactId>
-      </properties>
-    </profile>
-  </profiles>
+        <grpc.version>1.68.0</grpc.version>
+        <protobuf.version>3.25.4</protobuf.version>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-protobuf</artifactId>
-      <version>${grpc.java.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-stub</artifactId>
-      <version>${grpc.java.version}</version>
-    </dependency>
-    <dependency> <!-- necessary for Java 9+ -->
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>annotations-api</artifactId>
-      <version>${tomcat.annotations.version}</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <final.name>proto</final.name>
+                <proto.includes>
+                    */*.proto
+                </proto.includes>
+                <project.artifactId>x-platform-proto</project.artifactId>
+            </properties>
+        </profile>
+        <profile>
+            <id>user-manager</id>
+            <properties>
+                <final.name>user-manager</final.name>
+                <proto.includes>
+                    user-manager/*.proto
+                </proto.includes>
+                <project.artifactId>x-user-manager-proto</project.artifactId>
+            </properties>
+        </profile>
+    </profiles>
 
-  <build>
-    <finalName>${final.name}-${project.version}</finalName>
-    <extensions>
-      <extension>
-        <groupId>kr.motd.maven</groupId>
-        <artifactId>os-maven-plugin</artifactId>
-        <version>${os.maven.plugin.version}</version>
-      </extension>
-    </extensions>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>17</source>  <!-- Chỉnh sửa thành Java 11 hoặc 17 -->
-          <target>17</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.xolstice.maven.plugins</groupId>
-        <artifactId>protobuf-maven-plugin</artifactId>
-        <version>${protobuf.maven.plugin.version}</version>
-        <configuration>
-          <protocArtifact>
-            com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}
-          </protocArtifact>
-          <pluginId>grpc-java</pluginId>
-          <pluginArtifact>
-            io.grpc:protoc-gen-grpc-java:${grpc.java.version}:exe:${os.detected.classifier}
-          </pluginArtifact>
-          <protoSourceRoot>
-            ${basedir}/src/main/proto/
-          </protoSourceRoot>
-          <includes>
-            <include>${proto.includes}</include>
-          </includes>
-          <excludes>
-            <exclude>test/*.proto</exclude>
-          </excludes>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>compile-custom</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+    <dependencies>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>${protobuf.version}</version>
+        </dependency>
+    </dependencies>
+
+    <!--  <build>-->
+    <!--    <finalName>${final.name}-${project.version}</finalName>-->
+    <!--    <extensions>-->
+    <!--      <extension>-->
+    <!--        <groupId>kr.motd.maven</groupId>-->
+    <!--        <artifactId>os-maven-plugin</artifactId>-->
+    <!--        <version>${os.maven.plugin.version}</version>-->
+    <!--      </extension>-->
+    <!--    </extensions>-->
+    <!--    <plugins>-->
+    <!--      <plugin>-->
+    <!--        <groupId>org.apache.maven.plugins</groupId>-->
+    <!--        <artifactId>maven-compiler-plugin</artifactId>-->
+    <!--        <configuration>-->
+    <!--          <source>17</source>  &lt;!&ndash; Chỉnh sửa thành Java 11 hoặc 17 &ndash;&gt;-->
+    <!--          <target>17</target>-->
+    <!--        </configuration>-->
+    <!--      </plugin>-->
+    <!--      <plugin>-->
+    <!--        <groupId>org.xolstice.maven.plugins</groupId>-->
+    <!--        <artifactId>protobuf-maven-plugin</artifactId>-->
+    <!--        <version>${protobuf.maven.plugin.version}</version>-->
+    <!--        <configuration>-->
+    <!--          <protocArtifact>-->
+    <!--            com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}-->
+    <!--          </protocArtifact>-->
+    <!--          <pluginId>grpc-java</pluginId>-->
+    <!--          <pluginArtifact>-->
+    <!--            io.grpc:protoc-gen-grpc-java:${grpc.java.version}:exe:${os.detected.classifier}-->
+    <!--          </pluginArtifact>-->
+    <!--          <protoSourceRoot>-->
+    <!--            ${basedir}/src/main/proto/-->
+    <!--          </protoSourceRoot>-->
+    <!--          <includes>-->
+    <!--            <include>${proto.includes}</include>-->
+    <!--          </includes>-->
+    <!--          <excludes>-->
+    <!--            <exclude>test/*.proto</exclude>-->
+    <!--          </excludes>-->
+    <!--        </configuration>-->
+    <!--        <executions>-->
+    <!--          <execution>-->
+    <!--            <goals>-->
+    <!--              <goal>compile</goal>-->
+    <!--              <goal>compile-custom</goal>-->
+    <!--            </goals>-->
+    <!--          </execution>-->
+    <!--        </executions>-->
+    <!--      </plugin>-->
+    <!--    </plugins>-->
+    <!--  </build>-->
+    <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.7.1</version>
+            </extension>
+        </extensions>
+
+        <plugins>
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.6.1</version>
+
+                <configuration>
+                    <protocArtifact>
+                        com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}
+                    </protocArtifact>
+
+                    <pluginId>grpc-java</pluginId>
+                    <pluginArtifact>
+                        io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}
+                    </pluginArtifact>
+
+                    <protoSourceRoot>
+                        src/main/proto
+                    </protoSourceRoot>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
