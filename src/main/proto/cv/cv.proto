@@ -3,42 +3,21 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "com.htv.proto.cv";
 
-import "google/protobuf/timestamp.proto";
-import "google/protobuf/empty.proto";
-
-// ===================== ENUMS =====================
-enum LanguageLevel {
-  LANGUAGE_LEVEL_UNSPECIFIED = 0;
-  BASIC = 1;
-  INTERMEDIATE = 2;
-  FLUENT = 3;
-  NATIVE = 4;
-}
-
-// ===================== REPEATED MESSAGES =====================
-message Experience {
+message ExperienceGrpc {
   string company = 1;
   string position = 2;
   string duration = 3;
   repeated string description = 4;
 }
 
-message Education {
+message EducationGrpc {
   string school = 1;
   string major = 2;
   string duration = 3;
   string gpa = 4;
 }
 
-message SpokenLanguage {
-  string name = 1;
-  oneof level_oneof {
-    string level_text = 2;
-    LanguageLevel level_enum = 3;
-  }
-}
-
-message Project {
+message ProjectGrpc {
   string id = 1;
   string title = 2;
   string short_desc = 3;
@@ -48,8 +27,7 @@ message Project {
   string year = 7;
 }
 
-// ===================== TRANSLATION =====================
-message Translation {
+message TranslationGrpc {
   string lang_code = 1;
 
   string name = 10;
@@ -60,41 +38,36 @@ message Translation {
   string location = 15;
   string website = 16;
 
-  repeated Experience experience = 20;
-  repeated Education education = 21;
+  repeated ExperienceGrpc experience = 20;
+  repeated EducationGrpc education = 21;
   repeated string skills = 22;
-  repeated SpokenLanguage languages = 23;
-  repeated Project projects = 24;
+  repeated ProjectGrpc projects = 24;
 }
 
-// ===================== MAIN CV ENTITY =====================
-message CV {
+message CvGrpc {
   int64 id = 1;
-  string default_lang = 2; // ví dụ: "vi"
-  google.protobuf.Timestamp created_at = 3;
-  google.protobuf.Timestamp updated_at = 4;
+  string default_lang = 2;
   bool is_active = 5;
 
-  repeated Translation translations = 10;
+  repeated TranslationGrpc translations = 10;
 }
 
-// ===================== REQUEST / RESPONSE =====================
-message GetCVRequest {
+message GetCvGrpcRequest {
   int64 cv_id = 1;
-  string requested_lang = 2; // nếu rỗng thì dùng default_lang
+  string requested_lang = 2;
 }
 
-message GetCVResponse {
-  CV cv = 1;
-  Translation resolved_translation = 2;
+message GetCvGrpcResponse {
+  CvGrpc cv = 1;
+  TranslationGrpc resolved_translation = 2;
 }
 
 message CreateCVRequest {
-  CV cv = 1;
+  CvGrpc cv = 1;
 }
 
 message UpdateCVRequest {
-  CV cv = 1;
+  CvGrpc cv = 1;
 }
 
 message DeleteCVRequest {
@@ -104,19 +77,18 @@ message DeleteCVRequest {
 message ListCVsRequest {
   int32 page = 1;
   int32 size = 2;
-  string lang = 3; // để trả về resolved translation luôn
+  string lang = 3;
 }
 
-message ListCVsResponse {
-  repeated CV items = 1;
+message ListCvsGrpcResponse {
+  repeated CvGrpc items = 1;
   int32 total = 2;
 }
 
-// ===================== SERVICE DEFINITION =====================
-service CVService {
-  rpc GetCV(GetCVRequest) returns (GetCVResponse);
-  rpc CreateCV(CreateCVRequest) returns (CV);
-  rpc UpdateCV(UpdateCVRequest) returns (CV);
-  rpc DeleteCV(DeleteCVRequest) returns (google.protobuf.Empty);
-  rpc ListCVs(ListCVsRequest) returns (ListCVsResponse);
+service CvGrpcService {
+  rpc GetCV(GetCvGrpcRequest) returns (GetCvGrpcResponse);
+  rpc CreateCV(CreateCVRequest) returns (CvGrpc);
+  rpc UpdateCV(UpdateCVRequest) returns (CvGrpc);
+  rpc DeleteCV(DeleteCVRequest) returns (CvGrpc);
+  rpc ListCVs(ListCVsRequest) returns (ListCvsGrpcResponse);
 }
