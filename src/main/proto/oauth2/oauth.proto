@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package oauth2;
+
+option java_multiple_files = true;
+option java_package = "com.htv.proto.oauth2";
+option java_outer_classname = "Oauth2GrpcProto";
+
+/* ===============================
+   ENUMS
+================================ */
+
+enum TokenTypeGrpc {
+  ACCESS_TOKEN_GRPC = 0;
+  REFRESH_TOKEN_GRPC = 1;
+}
+
+enum MfaTypeGrpc {
+  NONE_GRPC = 0;
+  EMAIL_GRPC = 1;
+  TOTP_GRPC = 2;
+}
+
+/* ===============================
+   COMMON MODEL
+================================ */
+
+message UserInfoGrpc {
+  string user_id = 1;
+  string username = 2;
+  string role = 3;
+  string full_name = 4;
+  string email = 5;
+  bool email_verified = 6;
+}
+
+/* ===============================
+   REGISTER + EMAIL VERIFY
+================================ */
+
+message RegisterRequestGrpc {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+  string full_name = 4;
+}
+
+message RegisterResponseGrpc {
+  bool success = 1;
+  string message = 2;
+}
+
+message VerifyEmailRequestGrpc {
+  string verification_token = 1;
+}
+
+message VerifyEmailResponseGrpc {
+  bool verified = 1;
+  string message = 2;
+}
+
+/* ===============================
+   LOGIN + MFA
+================================ */
+
+message LoginRequestGrpc {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponseGrpc {
+  bool success = 1;
+  bool mfa_required = 2;
+  MfaTypeGrpc mfa_type = 3;
+
+  string access_token = 4;
+  string refresh_token = 5;
+
+  UserInfoGrpc user = 6;
+}
+
+message MfaVerifyRequestGrpc {
+  string username = 1;
+  string otp_code = 2;
+}
+
+message MfaVerifyResponseGrpc {
+  bool success = 1;
+  string access_token = 2;
+  string refresh_token = 3;
+}
+
+/* ===============================
+   TOKEN MANAGEMENT
+================================ */
+
+message RefreshTokenRequestGrpc {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponseGrpc {
+  bool success = 1;
+  string access_token = 2;
+  string refresh_token = 3;
+}
+
+message IntrospectTokenRequestGrpc {
+  string token = 1;
+}
+
+message IntrospectTokenResponseGrpc {
+  bool active = 1;
+  UserInfoGrpc user = 2;
+}
+
+message RevokeTokenRequestGrpc {
+  string token = 1;
+  TokenTypeGrpc token_type = 2;
+}
+
+message RevokeTokenResponseGrpc {
+  bool revoked = 1;
+}
+
+/* ===============================
+   SERVICE
+================================ */
+
+service Oauth2ServiceGrpc {
+
+  rpc Register(RegisterRequestGrpc)
+      returns (RegisterResponseGrpc);
+
+  rpc VerifyEmail(VerifyEmailRequestGrpc)
+      returns (VerifyEmailResponseGrpc);
+
+  rpc Login(LoginRequestGrpc)
+      returns (LoginResponseGrpc);
+
+  rpc VerifyMfa(MfaVerifyRequestGrpc)
+      returns (MfaVerifyResponseGrpc);
+
+  rpc RefreshToken(RefreshTokenRequestGrpc)
+      returns (RefreshTokenResponseGrpc);
+
+  rpc IntrospectToken(IntrospectTokenRequestGrpc)
+      returns (IntrospectTokenResponseGrpc);
+
+  rpc RevokeToken(RevokeTokenRequestGrpc)
+      returns (RevokeTokenResponseGrpc);
+}
